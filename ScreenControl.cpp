@@ -9,6 +9,8 @@
 #define TICK_PER_UPDATE 100
 int currentTick = 0;
 
+bool loopSafe = true;
+
 // Declaration for an SSD1306 display connected to I2C (SDA, SCL pins)
 // The pins for I2C are defined by the Wire-library. 
 // On an arduino UNO:       A4(SDA), A5(SCL)
@@ -19,7 +21,8 @@ int currentTick = 0;
 Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 String mainString;
-bool updated = false;
+String appendString;
+bool updated = true;
 
 int currentTextSize = 1;
 
@@ -43,22 +46,23 @@ bool Init_Screen()
   return true;
 }
 
-void NewText(const char* text)
+void NewText(String text)
 {
   mainString = text;
-
-  updated = true;
-}
-
-void AppendText(const char* text)
-{
-  mainString += " " + String(text);
-
   updated = true;
 }
 
 void AppendString(String string) {
-  mainString = string;
+  appendString += " " + string;
+  updated = true;
+}
+
+void AppendStringLoopSafe(String string) {
+  Serial.println("Append called");
+
+  if(!loopSafe) return;
+
+  appendString += " " + string;
   updated = true;
 }
 
@@ -82,8 +86,11 @@ void DisplaySensorReadings(int sensorRead[8])
 
 void TickDisplay()
 {
+  Serial.println("false");
+    loopSafe = false;
+
     currentTick++;
-    if(currentTick >= TICK_PER_UPDATE && updated && mainString != "")
+    if(currentTick >= TICK_PER_UPDATE && updated)
     {
       UpdateDisplay();
       currentTick = 0;
@@ -96,6 +103,12 @@ void UpdateDisplay()
   display.setCursor(0, 0);
   display.setTextSize(currentTextSize);
   display.clearDisplay();
-  display.print(mainString);
+  display.print(mainString + appendString);
   display.display();
+
+  mainString = "";
+  appendString = "";
+
+  Serial.println("true");
+  loopSafe = true;
 }

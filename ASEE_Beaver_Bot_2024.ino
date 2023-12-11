@@ -11,10 +11,10 @@ State presentState = Startup;
 
 const int startSpeed = 100;
 
-unsigned long timeMillis = millis();
-bool toggle = false;
 int testSensorValues1[8] = {0 ,1, 1, 0, 1, 0, 1, 0} ;
 int testSensorValues2[8] = {0 ,0, 1, 1, 1, 1, 0, 0} ;
+
+double testVal = 0;
 
 void setup() 
 {
@@ -25,11 +25,10 @@ void setup()
 
   LineSetup();
   WheelsSetup();
+  UserInputSetup();
 
   ChangeSpeed(startSpeed);
   setEncoderValue(startSpeed);
-
-  SetupUserInput();
 }
 
 void loop() 
@@ -43,17 +42,31 @@ void SwitchState(State currentState)
 {
   switch(currentState)
   {
-    case State::Running:
-      RunningLoop();
-      break;
-
     case State::Startup:
       StartupLoop();
+      break;
+
+    case State::Running:
+      RunningLoop();
       break;
 
     default:
       break;
   }
+}
+
+void StartupLoop()
+{
+  if(getYellowState() == LOW) presentState = State::Running;
+
+  UpdateOpticalEncoder();
+  if(getEncoderButtonState() == LOW)
+  {
+    ChangeSpeed(getEncoderValue());
+  }
+
+  //For Testing
+  AppendStringLoopSafe(String(getEncoderValue()));
 }
 
 void RunningLoop()
@@ -66,20 +79,8 @@ void RunningLoop()
   //UseSteeringValues(GetSteeringValues()[0], GetSteeringValues()[1]);
 
   //Testing Code
-  UseSteeringValues(200, 200);
+  UseSteeringValues((int)testVal, (int)testVal);
+  testVal += 0.01;
+
+  AppendStringLoopSafe(String(testVal));
 }
-
-void StartupLoop()
-{
-  if(getYellowState() == LOW) presentState = State::Running;
-
-  ReadOpticalEncoder();
-  if(getEncoderButtonState() == LOW)
-  {
-    ChangeSpeed(getEncoderValue());
-  }
-
-  //For Testing
-  AppendString(String(getEncoderValue()));
-}
-

@@ -9,6 +9,8 @@ bool Init_Screen();
 void NewText(const char* text);
 void AppendText(const char* text);
 void AppendString(String string);
+void AppendStringLoopSafe(String string);
+
 void DisplaySensorReadings(int sensorRead[8]);
 
 void TickDisplay();

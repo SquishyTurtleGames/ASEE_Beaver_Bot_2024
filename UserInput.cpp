@@ -9,7 +9,7 @@ int encoderValue;
 const int defaultEncoderStartVal = 100;
 int oldClockState = LOW;
 
-void SetupUserInput()
+void UserInputSetup()
 {
   pinMode(YELLOW_BUTTON_PIN, INPUT_PULLUP);
   pinMode(WHITE_BUTTON_PIN, INPUT_PULLUP);
@@ -39,7 +39,7 @@ int getWhiteState()
   return whiteButtonState;
 }
 
-void ReadOpticalEncoder()
+void UpdateOpticalEncoder()
 {
     int dialClockState = digitalRead(DIAL_CLOCK_PIN);
     int dialDataState = digitalRead(DIAL_DATA_PIN);

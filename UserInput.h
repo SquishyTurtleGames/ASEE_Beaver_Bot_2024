@@ -1,16 +1,11 @@
+  void UserInputSetup();
 
-void SetupUserInput();
+  void ReadButtons();
+  int getYellowState();
+  int getWhiteState();
 
-void ReadButtons();
+  void UpdateOpticalEncoder();
+  int getEncoderButtonState();
+  int getEncoderValue();
 
-int getYellowState();
-
-int getWhiteState();
-
-void ReadOpticalEncoder();
-
-int getEncoderButtonState();
-
-int getEncoderValue();
-
-void setEncoderValue(int val);
+  void setEncoderValue(int val);        
