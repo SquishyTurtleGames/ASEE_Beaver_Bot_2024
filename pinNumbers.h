@@ -15,7 +15,7 @@
 
 #define MY_SERVO_PIN 12
 
-const int LINE_SENSOR[] = {28, 27, 26, 22, 3, 2, 1, 0};
+const int LINE_SENSOR[] = {11, 10, 9, 8, 6, 7, 3, 2};
 
 #define SCREEN_PIN_ONE 4
 #define SCREEN_PIN_TWO 5

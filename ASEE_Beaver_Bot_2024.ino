@@ -71,11 +71,14 @@ void StartupLoop()
 
 void RunningLoop()
 {
+  ReadLine();
+
   DisplaySensorReadings(GetSensor());
   DisplayLineBreak();
-  Display(GetWheelSpeed());
-
-  ReadLine();
+  Display(GetLargestChunkStart());
+  Display(GetLargestChunkEnd());
+  Display(GetFinalMultiplier());
+  
 
   //Real code
   //UseSteeringValues(GetSteeringValues()[0], GetSteeringValues()[1]);
@@ -84,5 +87,5 @@ void RunningLoop()
   UseSteeringValues((int)testVal, (int)testVal);
   testVal += 0.01;
 
-  Display(testVal);
+  //Display(testVal);
 }
