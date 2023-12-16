@@ -66,12 +66,14 @@ void StartupLoop()
   }
 
   //For Testing
-  AppendStringLoopSafe(String(getEncoderValue()));
+  Display(getEncoderValue());
 }
 
 void RunningLoop()
 {
   DisplaySensorReadings(GetSensor());
+  DisplayLineBreak();
+  Display(GetWheelSpeed());
 
   ReadLine();
 
@@ -82,5 +84,5 @@ void RunningLoop()
   UseSteeringValues((int)testVal, (int)testVal);
   testVal += 0.01;
 
-  AppendStringLoopSafe(String(testVal));
+  Display(testVal);
 }

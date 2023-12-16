@@ -46,24 +46,26 @@ bool Init_Screen()
   return true;
 }
 
-void NewText(String text)
+void Display(String string) {
+  mainString += string + " ";
+  updated = true;
+}
+
+void Display(int value) {
+  String string = String(value);
+  mainString += string + " ";
+  updated = true;
+}
+
+void Display(double value) {
+  String string = String(value);
+  mainString += string + " ";
+  updated = true;
+}
+
+void DisplayLineBreak()
 {
-  mainString = text;
-  updated = true;
-}
-
-void AppendString(String string) {
-  appendString += " " + string;
-  updated = true;
-}
-
-void AppendStringLoopSafe(String string) {
-  Serial.println("Append called");
-
-  if(!loopSafe) return;
-
-  appendString += " " + string;
-  updated = true;
+  mainString += "\n";
 }
 
 void DisplaySensorReadings(int sensorRead[8])
@@ -75,20 +77,13 @@ void DisplaySensorReadings(int sensorRead[8])
     output += String(sensorRead[i]);
   }
 
-  output += "\n";
-
-  output += GetWheelSpeed();
-
-  mainString = output;
+  Display(output);
 
   updated = true;
 }
 
 void TickDisplay()
 {
-  Serial.println("false");
-    loopSafe = false;
-
     currentTick++;
     if(currentTick >= TICK_PER_UPDATE && updated)
     {
@@ -96,6 +91,8 @@ void TickDisplay()
       currentTick = 0;
       updated = false;
     }
+
+    mainString = "";
 }
 
 void UpdateDisplay()
@@ -105,10 +102,4 @@ void UpdateDisplay()
   display.clearDisplay();
   display.print(mainString + appendString);
   display.display();
-
-  mainString = "";
-  appendString = "";
-
-  Serial.println("true");
-  loopSafe = true;
 }
