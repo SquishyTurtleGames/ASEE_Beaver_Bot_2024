@@ -5,7 +5,7 @@ void LineSetup();
 void ReadLine();
 double CalculateFinalMultiplier(int start, int end);
 void FindLargestChunk(int values[8]);
-void LineFollow(int center);
+void CalcSteeringValues();
 int* GetSensor();
 int* GetSteeringValues();
 int GetLargestChunkStart();

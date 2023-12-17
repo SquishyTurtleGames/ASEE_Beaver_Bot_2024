@@ -9,7 +9,7 @@
 enum State {Startup, Running};
 State presentState = Startup;
 
-const int startSpeed = 100;
+const int startSpeed = 50;
 
 int testSensorValues1[8] = {0 ,1, 1, 0, 1, 0, 1, 0} ;
 int testSensorValues2[8] = {0 ,0, 1, 1, 1, 1, 0, 0} ;
@@ -71,8 +71,6 @@ void StartupLoop()
 
 void RunningLoop()
 {
-  ReadLine();
-
   DisplaySensorReadings(GetSensor());
   DisplayLineBreak();
   Display(GetLargestChunkStart());
@@ -81,11 +79,19 @@ void RunningLoop()
   
 
   //Real code
-  //UseSteeringValues(GetSteeringValues()[0], GetSteeringValues()[1]);
+  UseSteeringValues(GetSteeringValues()[0], GetSteeringValues()[1]);
+
+  DisplayLineBreak();
+  Display("L:");
+  Display(GetSteeringValues()[0]);
+
+  DisplayLineBreak();
+  Display("R:");
+  Display(GetSteeringValues()[1]);
 
   //Testing Code
-  UseSteeringValues((int)testVal, (int)testVal);
-  testVal += 0.01;
+  //UseSteeringValues((int)testVal, (int)testVal);
+  //testVal += 0.01;
 
   //Display(testVal);
 }

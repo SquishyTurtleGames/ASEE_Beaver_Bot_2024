@@ -5,12 +5,12 @@
 #include "ScreenControl.h"
 
 int amountSeen = 0;
-//int lastLineIndex = 0;
-int firstLineIndex = 0;
+
+double adjustmentIncrement = 5.0;
 int leftSteeringValue = 0;
 int rightSteeringValue = 0;
 
-int wheelSpeed = 100;
+int wheelSpeed;
 
 
 int sensors[8];
@@ -39,7 +39,7 @@ int* GetSensor() {
 
 int* GetSteeringValues() {
   ReadLine();
-  LineFollow(3);
+  CalcSteeringValues();
   steeringValues[0] = leftSteeringValue;
   steeringValues[1] = rightSteeringValue;
   return steeringValues;
@@ -61,18 +61,16 @@ double GetFinalMultiplier()
 }
 
 
-void ReadLine() {
+void ReadLine() 
+{
   amountSeen = 0;
-  //double averageSensor = 0;
-  firstLineIndex = -1;
-  for(int i = 7; i >= 0; i--) {
+
+  for(int i = 7; i >= 0; i--) 
+  {
     sensors[i] = (digitalRead(LINE_SENSOR[i]) == HIGH) ? 1 : 0;
-    //Serial.print(sensors[i]);
-    if(sensors[i] == 1) {
-       if(firstLineIndex == -1) {
-        firstLineIndex = i;
-      }
-      //averageSensor += i;
+
+    if(sensors[i] == 1) 
+    {
       ++amountSeen;
     }
   }
@@ -131,7 +129,7 @@ double CalculateFinalMultiplier(int start, int end)
   double averageIndex = (double)indexTotal / (double)chunkSize;
 
   double output = 0;
-  if(averageIndex >= 3.5)
+  if(averageIndex > 3.5)
   {
     output = averageIndex - 3.0; 
   }
@@ -139,22 +137,33 @@ double CalculateFinalMultiplier(int start, int end)
   {
     output = averageIndex - 4.0;
   }
+  else
+  {
+    output = 0;
+  }
 
   return output;
 }
 
-void LineFollow(int center = 3) {
-  if (amountSeen == 0) {
+void CalcSteeringValues() 
+{
+  double rightSteeringValueRaw;
+  double leftSteeringValueRaw;
+
+  if (amountSeen == 0) 
+  {
     //floor it and pray? Consider Circling 
-    //digitalWrite(LEDG, LOW);
+    //emergency code to go here
   }
-  else {
-    firstLineIndex--;
-    if (firstLineIndex != -1) {
-      rightSteeringValue = (wheelSpeed + 15*((wheelSpeed - 90)/10.0)*(firstLineIndex - center)); //10.0 is a double by design
-      leftSteeringValue = (wheelSpeed - 15*((wheelSpeed - 90)/10.0)*(firstLineIndex - center)); 
-    
-    }
+  else 
+  {
+    double potentialMax = 100 + adjustmentIncrement * 4;
+
+    rightSteeringValueRaw = wheelSpeed + (adjustmentIncrement * finalMultiplier);
+    leftSteeringValueRaw = wheelSpeed - (adjustmentIncrement * finalMultiplier);
+
+    rightSteeringValue = (rightSteeringValueRaw / potentialMax) * 100.0;
+    leftSteeringValue = (leftSteeringValueRaw / potentialMax) * 100.0;
   }
 }
 
