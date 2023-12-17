@@ -13,5 +13,5 @@ int GetLargestChunkEnd();
 double GetFinalMultiplier();
 void ChangeSpeed(int newSpeed);
 void ReadButtons();
-String GetWheelSpeed();
+int GetWheelSpeed();
 #endif

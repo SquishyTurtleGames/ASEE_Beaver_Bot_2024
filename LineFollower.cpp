@@ -168,9 +168,9 @@ void CalcSteeringValues()
 }
 
 void ChangeSpeed(int newSpeed) {
-  wheelSpeed = newSpeed;
+  wheelSpeed = constrain(newSpeed, 0, 100);
 }
 
-String GetWheelSpeed() {
-  return String(wheelSpeed);
+int GetWheelSpeed() {
+  return wheelSpeed;
 }
