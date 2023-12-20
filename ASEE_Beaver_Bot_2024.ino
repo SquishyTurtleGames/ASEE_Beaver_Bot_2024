@@ -29,6 +29,8 @@ void setup()
 
   ChangeSpeed(startSpeed);
   setEncoderValue(startSpeed);
+
+  pinMode(IRSensor1, INPUT);
 }
 
 void loop() 
@@ -81,6 +83,7 @@ void RunningLoop()
   //Real code
   UseSteeringValues(GetSteeringValues()[0], GetSteeringValues()[1]);
 
+  /*
   DisplayLineBreak();
   Display("L:");
   Display(GetSteeringValues()[0]);
@@ -88,6 +91,12 @@ void RunningLoop()
   DisplayLineBreak();
   Display("R:");
   Display(GetSteeringValues()[1]);
+  */
+  int sensorVal = analogRead(IRSensor1);
+  DisplayLineBreak();
+  Serial.println(sensorVal);
+  Display(sensorVal);
+
 
   //Testing Code
   //UseSteeringValues((int)testVal, (int)testVal);

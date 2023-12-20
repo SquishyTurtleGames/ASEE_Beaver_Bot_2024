@@ -17,6 +17,8 @@
 
 const int LINE_SENSOR[] = {11, 10, 9, 8, 6, 7, 3, 2};
 
+#define IRSensor1 26
+
 #define SCREEN_PIN_ONE 4
 #define SCREEN_PIN_TWO 5
 
