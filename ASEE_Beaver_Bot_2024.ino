@@ -59,7 +59,7 @@ void SwitchState(State currentState)
 
 void StartupLoop()
 {
-  if(getYellowState() == LOW) presentState = State::Running;
+  if(getYellowState()) presentState = State::Running;
 
   UpdateOpticalEncoder();
   if(getEncoderButtonState() == LOW)
@@ -75,8 +75,6 @@ void RunningLoop()
 {
   DisplaySensorReadings(GetSensor());
   DisplayLineBreak();
-  Display(GetLargestChunkStart());
-  Display(GetLargestChunkEnd());
   Display(GetFinalMultiplier());
   
 
@@ -96,11 +94,4 @@ void RunningLoop()
   DisplayLineBreak();
   Serial.println(sensorVal);
   Display(sensorVal);
-
-
-  //Testing Code
-  //UseSteeringValues((int)testVal, (int)testVal);
-  //testVal += 0.01;
-
-  //Display(testVal);
 }

@@ -27,16 +27,16 @@ void ReadButtons()
   whiteButtonState = digitalRead(WHITE_BUTTON_PIN);
 }
 
-int getYellowState()
+bool getYellowState()
 {
   ReadButtons();
-  return yellowButtonState;
+  return yellowButtonState == LOW;
 }
 
-int getWhiteState()
+bool getWhiteState()
 {
   ReadButtons();
-  return whiteButtonState;
+  return whiteButtonState == LOW;
 }
 
 void UpdateOpticalEncoder()

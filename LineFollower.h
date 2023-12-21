@@ -8,8 +8,6 @@ void FindLargestChunk(int values[8]);
 void CalcSteeringValues();
 int* GetSensor();
 int* GetSteeringValues();
-int GetLargestChunkStart();
-int GetLargestChunkEnd();
 double GetFinalMultiplier();
 void ChangeSpeed(int newSpeed);
 void ReadButtons();

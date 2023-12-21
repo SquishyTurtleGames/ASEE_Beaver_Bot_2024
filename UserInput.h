@@ -1,8 +1,8 @@
   void UserInputSetup();
 
   void ReadButtons();
-  int getYellowState();
-  int getWhiteState();
+  bool getYellowState();
+  bool getWhiteState();
 
   void UpdateOpticalEncoder();
   int getEncoderButtonState();
