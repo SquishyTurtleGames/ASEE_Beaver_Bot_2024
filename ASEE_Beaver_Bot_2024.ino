@@ -4,6 +4,7 @@
 #include "LineFollower.h"
 #include "Drive.h"
 #include "UserInput.h"
+#include "ServoControl.h"
 
 
 enum State {Startup, Running};
@@ -31,6 +32,8 @@ void setup()
   setEncoderValue(startSpeed);
 
   pinMode(IRSensor1, INPUT);
+
+  setupServo();
 }
 
 void loop() 
@@ -69,29 +72,22 @@ void StartupLoop()
 
   //For Testing
   Display(getEncoderValue());
+  DisplayLineBreak();
+  Display(getServoPos());
 }
 
 void RunningLoop()
 {
+  UseSteeringValues(GetSteeringValues()[0], GetSteeringValues()[1]);
+
+  resetServo();
+  if(getWhiteState()) Wack();
+
+  int sensorVal = analogRead(IRSensor1);
+
   DisplaySensorReadings(GetSensor());
   DisplayLineBreak();
   Display(GetFinalMultiplier());
-  
-
-  //Real code
-  UseSteeringValues(GetSteeringValues()[0], GetSteeringValues()[1]);
-
-  /*
   DisplayLineBreak();
-  Display("L:");
-  Display(GetSteeringValues()[0]);
-
-  DisplayLineBreak();
-  Display("R:");
-  Display(GetSteeringValues()[1]);
-  */
-  int sensorVal = analogRead(IRSensor1);
-  DisplayLineBreak();
-  Serial.println(sensorVal);
   Display(sensorVal);
 }

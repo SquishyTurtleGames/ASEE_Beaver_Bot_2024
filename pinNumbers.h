@@ -13,11 +13,11 @@
 #define DIAL_DATA_PIN 16
 #define DIAL_SWITCH_PIN 19
 
-#define MY_SERVO_PIN 12
+#define MY_SERVO_PIN 18
 
 const int LINE_SENSOR[] = {11, 10, 9, 8, 6, 7, 3, 2};
 
-#define IRSensor1 26
+#define IRSensor1 26 //ADC0
 
 #define SCREEN_PIN_ONE 4
 #define SCREEN_PIN_TWO 5

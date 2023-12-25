@@ -3,7 +3,6 @@
 
   int numLeftBools = 0;
   int numRightBools = 0;
-  int timeMilliss = 0;
 
 
 void WheelsSetup() {
