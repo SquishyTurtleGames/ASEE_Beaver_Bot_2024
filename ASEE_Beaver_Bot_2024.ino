@@ -5,17 +5,17 @@
 #include "Drive.h"
 #include "UserInput.h"
 #include "ServoControl.h"
+#include "StickSensor.h"
 
 
+//State Variables
 enum State {Startup, Running};
 State presentState = Startup;
 
+//Parameters
+const int stickSensorThreshhold = 60;
 const int startSpeed = 50;
 
-int testSensorValues1[8] = {0 ,1, 1, 0, 1, 0, 1, 0} ;
-int testSensorValues2[8] = {0 ,0, 1, 1, 1, 1, 0, 0} ;
-
-double testVal = 0;
 
 void setup() 
 {
@@ -24,16 +24,16 @@ void setup()
   if(!Init_Screen())
   { for(;;); } 
 
+  //Various Setup
   LineSetup();
   WheelsSetup();
   UserInputSetup();
+  setupStickSensor();
+  setupServo();
 
+  //Initializing Encoder
   ChangeSpeed(startSpeed);
   setEncoderValue(startSpeed);
-
-  pinMode(IRSensor1, INPUT);
-
-  setupServo();
 }
 
 void loop() 
@@ -43,8 +43,10 @@ void loop()
   TickDisplay();
 }
 
+
 void SwitchState(State currentState)
 {
+  //Addition States should be called here
   switch(currentState)
   {
     case State::Startup:
@@ -62,32 +64,34 @@ void SwitchState(State currentState)
 
 void StartupLoop()
 {
+  //Check Yellow button
   if(getYellowState()) presentState = State::Running;
 
+  //Check Encoder
   UpdateOpticalEncoder();
   if(getEncoderButtonState() == LOW)
   {
     ChangeSpeed(getEncoderValue());
   }
 
-  //For Testing
+  //Display Error Handling
   Display(getEncoderValue());
   DisplayLineBreak();
-  Display(getServoPos());
 }
 
 void RunningLoop()
 {
+  //Steering Control
   UseSteeringValues(GetSteeringValues()[0], GetSteeringValues()[1]);
 
+  //Servo Control
   resetServo();
-  if(getWhiteState()) Wack();
+  if(checkThreshhold(stickSensorThreshhold)) Wack();
 
-  int sensorVal = analogRead(IRSensor1);
-
+  //Display Error Handling
   DisplaySensorReadings(GetSensor());
   DisplayLineBreak();
   Display(GetFinalMultiplier());
   DisplayLineBreak();
-  Display(sensorVal);
+  Display(getSensorVal());
 }

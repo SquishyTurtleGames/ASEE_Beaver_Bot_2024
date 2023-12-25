@@ -1,18 +1,15 @@
 #include "ServoControl.h"
 #include <Servo.h>
 #include "pinNumbers.h"
+#include "AsyncDelay.h"
 
 Servo myServo;
-int servoPosition = 0;
+AsyncDelay currentDelay;
 
-double timeMilliss;
+const int servoRestAngle = 0;
+const int servoWackAngle = 180;
 
-bool toggle = true;
-
-int getServoPos()
-{
-  return servoPosition;
-}
+const double servoActuationTime = 0.4;
 
 void setupServo()
 {
@@ -21,53 +18,15 @@ void setupServo()
 
 void resetServo()
 {
-  if(!ServoTimeDelay(0.1)) return;
+  if(!currentDelay.DelayComplete()) return;
 
-  myServo.write(0);
+  myServo.write(servoRestAngle);
 }
 
 void Wack()
 {
-  myServo.write(180);
+  myServo.write(servoWackAngle);
 
-  ServoTimeDelay();
+  currentDelay = AsyncDelay(servoActuationTime);
 }
 
-void StartupLoopStuff()
-{
-  myServo.write(servoPosition);
-
-  if(!ServoTimeDelay(0.01)) return;
-
-  if(toggle)
-  {
-    servoPosition += 5;
-
-    if(servoPosition >= 180) 
-    {
-      toggle = !toggle;
-    }
-  }
-  else
-  {
-    servoPosition -= 5;
-
-    if(servoPosition <= 0) 
-    {
-      toggle = !toggle;
-    }
-  }
-}
-
-bool ServoTimeDelay(double timeSec) 
-{
-  if(millis() - timeMilliss > timeSec * 1000) //Has one second passed? //1000 is time in milliseconds
-  {
-    //wait one second
-    timeMilliss = millis();
-    
-    return true; //and reset time.
-  }
-
-  return false;
-}

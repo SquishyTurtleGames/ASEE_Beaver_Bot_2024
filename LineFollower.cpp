@@ -11,7 +11,6 @@ int rightSteeringValue = 0;
 
 int wheelSpeed;
 
-
 int sensors[8];
 int steeringValues[2];
 
@@ -23,6 +22,28 @@ int linesPassed = 0;
 int largestChunkStart = -1;
 int largestChunkEnd = -1;
 
+//Getters
+int GetWheelSpeed() 
+{
+  return wheelSpeed;
+}
+
+int* GetSensor() 
+{
+  ReadLine();
+  return sensors;
+}
+
+double GetFinalMultiplier()
+{
+  return finalMultiplier;
+}
+
+//Setters
+void ChangeSpeed(int newSpeed) 
+{
+  wheelSpeed = constrain(newSpeed, 0, 100);
+}
 
 void LineSetup() 
 {
@@ -31,25 +52,20 @@ void LineSetup()
     pinMode(LINE_SENSOR[i],INPUT);
   }
 }
-int* GetSensor() 
+
+//Main Code
+int* GetSteeringValues() 
 {
   ReadLine();
-  return sensors;
-}
-
-int* GetSteeringValues() {
-  ReadLine();
-  CalcSteeringValues();
+  
   FindLargestChunk(sensors);
   finalMultiplier = CalculateFinalMultiplier(largestChunkStart, largestChunkEnd);
+
+  CalcSteeringValues();
+
   steeringValues[0] = leftSteeringValue;
   steeringValues[1] = rightSteeringValue;
   return steeringValues;
-}
-
-double GetFinalMultiplier()
-{
-  return finalMultiplier;
 }
 
 void ReadLine() 
@@ -192,12 +208,3 @@ void CalcSteeringValues()
   }
 }
 
-void ChangeSpeed(int newSpeed) 
-{
-  wheelSpeed = constrain(newSpeed, 0, 100);
-}
-
-int GetWheelSpeed() 
-{
-  return wheelSpeed;
-}

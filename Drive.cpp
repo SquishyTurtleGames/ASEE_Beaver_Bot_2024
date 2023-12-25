@@ -1,8 +1,8 @@
 #include "pinNumbers.h"
 #include <Arduino.h>
 
-  int numLeftBools = 0;
-  int numRightBools = 0;
+int numLeftBools = 0;
+int numRightBools = 0;
 
 
 void WheelsSetup() {
