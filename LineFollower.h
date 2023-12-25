@@ -10,6 +10,5 @@ int* GetSensor();
 int* GetSteeringValues();
 double GetFinalMultiplier();
 void ChangeSpeed(int newSpeed);
-void ReadButtons();
 int GetWheelSpeed();
 #endif
