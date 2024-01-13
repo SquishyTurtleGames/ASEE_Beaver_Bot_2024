@@ -74,8 +74,17 @@ void StartupLoop()
     ChangeSpeed(getEncoderValue());
   }
 
+  resetServo();
+  if(checkThreshhold(stickSensorThreshhold)) 
+  {
+    StartSensorRest();
+    Wack();
+  }
+
   //Display Error Handling
   Display(getEncoderValue());
+  DisplayLineBreak();
+  Display(getSensorVal());
   DisplayLineBreak();
 }
 
@@ -93,5 +102,4 @@ void RunningLoop()
   DisplayLineBreak();
   Display(GetFinalMultiplier());
   DisplayLineBreak();
-  Display(getSensorVal());
 }

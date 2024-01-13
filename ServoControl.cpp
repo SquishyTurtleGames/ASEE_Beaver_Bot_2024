@@ -6,10 +6,10 @@
 Servo myServo;
 AsyncDelay currentDelay;
 
-const int servoRestAngle = 0;
-const int servoWackAngle = 180;
+const int servoRestAngle = 120;
+const int servoWackAngle = 0;
 
-const double servoActuationTime = 0.4;
+const double servoActuationTime = 0.15;
 
 void setupServo()
 {
