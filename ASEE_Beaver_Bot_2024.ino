@@ -78,7 +78,7 @@ void StartupLoop()
   if(checkThreshhold(stickSensorThreshhold)) 
   {
     StartSensorRest();
-    Wack();
+    //Wack();
   }
 
   //Display Error Handling
@@ -95,7 +95,11 @@ void RunningLoop()
 
   //Servo Control
   resetServo();
-  if(checkThreshhold(stickSensorThreshhold)) Wack();
+  if(checkThreshhold(stickSensorThreshhold)) 
+  {
+    StartSensorRest();
+    Wack();
+  }
 
   //Display Error Handling
   DisplaySensorReadings(GetSensor());
